@@ -1,0 +1,233 @@
+.authorisation_block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+	min-height: 100vh;
+}
+
+.authorization_content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	width: 500px;
+	height: 300px;
+	padding: 24px;
+	border-radius: 12px;
+  background: #fcfcfc;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.authorization_content button {
+	width: 100%;
+}
+
+.log_in {
+  display: flex;
+  flex-direction: column;
+	width: 100%;
+  gap: 16px;
+	margin-bottom: 24px;
+}
+
+.log_in input {
+  width: 100%;
+  height: 48px;
+  background: #f8f9fb;
+  font-size: 16px;
+  padding: 14px 16px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  display: flex;
+  gap: 12px;
+  padding: 24px 0 50px 0;
+}
+
+.tabs_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 199px;
+  height: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  color: #242424;
+  background: rgba(26, 85, 81, 0.05);
+}
+
+.active_tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 199px;
+  height: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.74);
+}
+
+.tabs_btn:active {
+  transition: 0.3s all;
+  transform: translateY(3px);
+}
+
+.active_tab:active {
+  transition: 0.3s all;
+  transform: translateY(3px);
+}
+
+/* CATEGOTY */
+
+.search_content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.create {
+  display: flex;
+  gap: 18px;
+}
+
+.create input {
+  width: 500px;
+  height: 48px;
+  background: #f8f9fb;
+  font-size: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  width: 100%;
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  height: 48px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.table_name,
+.table_products {
+  width: 150px;
+}
+
+.table td:last-child {
+	text-align: end;
+}
+
+.delete {
+	margin-left: auto;
+}
+
+/* PRODUCTS */
+
+.products_block_head {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.table {
+	width: 100%;
+	height: auto;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: none;
+}
+
+.thead ul,
+.tbody ul {
+	display: flex;
+	width: 100%;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.thead ul {
+	height: 48px;
+}
+
+.thead ul li,
+.tbody ul li {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+	padding: 10px;
+  word-wrap: break-word;
+	border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.thead ul li:last-child,
+.tbody ul li:last-child {
+  border-right: none;
+}
+
+.thead ul li{
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.name {
+  width: 400px;
+}
+
+.role {
+  width: 400px;
+}
+
+.delete_list_user {
+  width: 160px;
+}
+
+.products {
+  width: 400px;
+}
+
+.title {
+	width: 200px;
+}
+
+.description {
+	width: 700px;
+}
+
+.image {
+	width: 200px;
+}
+
+.image img {
+  background: transparent;
+  width: 100%;
+  height: 100%;
+}
+
+.price {
+	width: 130px;
+}
+
+.category_name {
+	width: 140px;
+}
+
+.delete_list {
+  width: 150px;
+}
+
+.delete_btn {
+  width: 100%;
+}
