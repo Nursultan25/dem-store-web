@@ -75,7 +75,7 @@ const UsersModal = ({ active, setActive, closeModal }) => {
           onClick={() => {
             createUser();
             closeModal(false);
-            // refreshPage();
+            refreshPage();
           }}
         >
           Добавить

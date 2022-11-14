@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { SendingDropDown } from "../components/dropdown/DropDown";
 import UsersModal from "../components/modal/UsersModal";
 import { UsersTableAll } from "../components/tableProducts/TableProducts";
 
@@ -28,7 +27,6 @@ function Users() {
             >
               Создать
             </button>
-            <SendingDropDown  />
           </div>
           <UsersTableAll  />
         </div>
