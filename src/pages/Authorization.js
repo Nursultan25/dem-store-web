@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../App.css";
 import "./Pages.css";
-import { axios } from "axios";
 
 function Authorization() {
   const [user, setUser] = useState("");
