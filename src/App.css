@@ -68,12 +68,24 @@ button {
 	background: rgba(0, 0, 0, 0.74);
 }
 
+.submit {
+  padding: 14px 16px;
+	width: 200px;
+  cursor: pointer;
+	border-radius: 12px;
+	font-weight: 500;
+	color: #fff;
+  font-family: "Inter", sans-serif;
+  margin-top: 24px;
+	background: rgba(0, 0, 0, 0.74) !important;
+}
+.submit:active,
 button:active {
   transition: 0.3s all;
   transform: translateY(3px);
 }
 
-
+.submit:disabled,
 button:disabled {
   opacity: 0.5;
 }

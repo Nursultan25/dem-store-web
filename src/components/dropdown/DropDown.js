@@ -38,6 +38,7 @@ export function DropDown({ selected, setSelected }) {
       )
       .then((res) => {
         dispatch(setIsCategoryId(res.data));
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -202,69 +203,3 @@ export function DropDownModal({ categoryName, setCategoryName }) {
     </div>
   );
 }
-
-// USERS DROPDOWN
-
-// export function SendingDropDown() {
-//   const [isActive, setIsActive] = useState(false);
-//   const [roles] = useState();
-//   const [arrowRotate, setArrowRotate] = useState(false);
-
-//   const menuRef = useRef();
-
-//   const rotateArrow = () => {
-//     setArrowRotate(!arrowRotate);
-//   };
-
-//   useEffect(() => {
-//     const checkIfClickedOutside = (e) => {
-//       if (isActive && menuRef.current && !menuRef.current.contains(e.target)) {
-//         setIsActive(false);
-//         rotateArrow();
-//         return;
-//       }
-//     };
-//     document.addEventListener("mousedown", checkIfClickedOutside);
-//     return () => {
-//       document.removeEventListener("mousedown", checkIfClickedOutside);
-//     };
-//   }, [isActive]);
-
-//   return (
-//     <div className={drop.sending_dropdown} ref={menuRef}>
-//       <div
-//         className={drop.dropdown_btn}
-//         onClick={(e) => {
-//           setIsActive(!isActive);
-//           rotateArrow();
-//         }}
-//       >
-//         {roles ? roles : <span>Роль</span>}
-//         <img
-//           src={arrow}
-//           className={`${drop.dropdown_icon} ${
-//             arrowRotate ? `${drop.dropdown_rotate}` : ""
-//           }`}
-//           alt=""
-//         />
-//       </div>
-//       {isActive && (
-//         <div className={drop.dropdown_content}>
-//           {isPeriod?.map((option, i) => (
-//             <div
-// 							key={i}
-//               onClick={(e) => {
-//                 setRoles(option.period);
-//                 setIsActive(false);
-// 								rotateArrow();
-// 							}}
-//               className={drop.dropdown_item}
-//             >
-//               {option.period}
-//             </div>
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   );
-// }

@@ -1,20 +1,26 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import "../App.css";
 import "./Pages.css";
+import Loader from "./../components/loader/Loader";
 
 function Category() {
   const [categoryData, setCategoryData] = useState();
   const [values, setValues] = useState();
+  const [spinner, setSpinner] = useState(false);
+  const [logout, setLogout] = useState(false);
 
   const getCategory = () => {
+    setSpinner(true);
     axios
       .get("https://demo-store19.herokuapp.com/api/demo-store/categories")
       .then((res) => {
+        setSpinner(false);
         setCategoryData(res.data);
       })
       .catch((err) => {
+        setSpinner(false);
         console.log(err);
       });
   };
@@ -61,6 +67,15 @@ function Category() {
     console.log("page to reload");
   }
 
+  const logOut = () => {
+    localStorage.removeItem("token");
+    setLogout(true);
+  };
+
+  if (logout) {
+    return <Navigate to="/login" />;
+  }
+
   return (
     <section>
       <div className="wrapper">
@@ -92,36 +107,49 @@ function Category() {
                 Создать
               </button>
             </div>
-            <button>Поиск</button>
+            <button
+              onClick={() => {
+                logOut();
+              }}
+            >
+              Выйти
+            </button>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="table_name">Название</th>
-                <th className="table_products">Склад</th>
-                <th></th>
-              </tr>
-            </thead>
-            {categoryData?.map((categories, i) => (
-              <tbody key={i}>
+          {spinner ? (
+            <Loader />
+          ) : (
+            <table className="table">
+              <thead>
                 <tr>
-                  <td className="table_name">{categories.category_name}</td>
-                  <td className="table_products">{categories.in_stock}</td>
-                  <td>
-                    <button
-                      className="delete"
-                      onClick={() => {
-                        removeCategory(categories.category_name);
-                        refreshPage();
-                      }}
-                    >
-                      Удалить
-                    </button>
-                  </td>
+                  <th className="table_name">Название</th>
+                  <th className="table_products">Склад</th>
+                  <th></th>
                 </tr>
-              </tbody>
-            ))}
-          </table>
+              </thead>
+              {categoryData?.map((categories, i) => (
+                <tbody key={i}>
+                  <tr>
+                    <td className="table_name">{categories.category_name}</td>
+                    <td className="table_products">{categories.in_stock}</td>
+                    <td>
+                      <button className="update">
+                        Изменить
+                      </button>
+                      <button
+                        className="delete"
+                        onClick={() => {
+                          removeCategory(categories.category_name);
+                          refreshPage();
+                        }}
+                      >
+                        Удалить
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              ))}
+            </table>
+          )}
         </div>
       </div>
     </section>

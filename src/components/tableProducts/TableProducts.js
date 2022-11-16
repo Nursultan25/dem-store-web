@@ -1,12 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../../pages/Pages.css";
+import { setIsDescribtion, setIsImage, setIsProductsId, setIsTitle } from "../../store/reducer";
+import Loader from "../loader/Loader";
+import UpdateModal from "../modal/UpdateModal";
 
 // TABLE PRODUCTS
 
 export function TableProducts() {
+  const [open, setOpen] = useState(false);
+  const [productId, setProductId] = useState();
   const categoryId = useSelector((state) => state.reducer.categoryId);
+
+  const dispatch = useDispatch()
 
   const removeProduct = (id) => {
     axios
@@ -29,46 +36,59 @@ export function TableProducts() {
   }
 
   return (
-    <form className="table">
-      <div className="thead">
-        <ul>
-          <li className="title">Заголовок</li>
-          <li className="description">Описание</li>
-          <li className="image">Картинка</li>
-          <li className="price">Цена</li>
-          <li className="category_name">Категория</li>
-          <li className="delete_list"></li>
-        </ul>
-      </div>
-      <div className="tbody">
-        {categoryId?.map((item, i) => (
-          <ul key={i}>
-            <li className="title">{item.title}</li>
-            <li className="description">{item.description}</li>
-            <li className="image">
-              <img src={item.image} alt="" />
-            </li>
-            <li className="price">
-              {item.price?.map((prices, i) => (
-                <span key={i}>{prices.price},</span>
-              ))}
-            </li>
-            <li className="category_name">{item.category.category_name}</li>
-            <li className="delete_list">
-              <button
-                className="delete_btn"
-                onClick={() => {
-                  removeProduct(item.id);
-                  refreshPage();
-                }}
-              >
-                Удалить
-              </button>
-            </li>
+    <>
+      <form className="table">
+        <div className="thead">
+          <ul>
+            <li className="title">Заголовок</li>
+            <li className="description">Описание</li>
+            <li className="image">Картинка</li>
+            <li className="price">Цена</li>
+            <li className="category_name">Категория</li>
+            <li className="delete_list"></li>
           </ul>
-        ))}
-      </div>
-    </form>
+        </div>
+        <div className="tbody">
+          {categoryId?.map((item, i) => (
+            <ul key={i}>
+              <li className="title">{item.title}</li>
+              <li className="description">{item.description}</li>
+              <li className="image">
+                <img src={item.image} alt="" />
+              </li>
+              <li className="price">
+                {item.price?.map((prices, i) => (
+                  <span key={i}>{prices.price},</span>
+                ))}
+              </li>
+              <li className="category_name">{item.category.category_name}</li>
+              <li className="delete_list">
+                <button
+                  className="update_product"
+                  type="button"
+                  onClick={() => {
+                    dispatch(setIsProductsId(item.id))
+                    setOpen(true);
+                  }}
+                >
+                  Изменить
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    removeProduct(item.id);
+                    refreshPage();
+                  }}
+                >
+                  Удалить
+                </button>
+              </li>
+            </ul>
+          ))}
+          <UpdateModal open={open} setOpen={setOpen} setClose={setOpen} />
+        </div>
+      </form>
+    </>
   );
 }
 
@@ -76,14 +96,19 @@ export function TableProducts() {
 
 export function AllTableProducts() {
   const [productsAll, setProductsAll] = useState();
+  const [spinner, setSpinner] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    setSpinner(true);
     axios
       .get("https://demo-store19.herokuapp.com/api/demo-store/products/all")
       .then((res) => {
+        setSpinner(false);
         setProductsAll(res.data);
       })
       .catch((err) => {
+        setSpinner(false);
         console.log(err);
       });
   }, []);
@@ -101,6 +126,8 @@ export function AllTableProducts() {
       });
   };
 
+  const dispatch = useDispatch()
+
   function refreshPage() {
     setTimeout(() => {
       window.location.reload(false);
@@ -109,46 +136,66 @@ export function AllTableProducts() {
   }
 
   return (
-    <form className="table">
-      <div className="thead">
-        <ul>
-          <li className="title">Заголовок</li>
-          <li className="description">Описание</li>
-          <li className="image">Картинка</li>
-          <li className="price">Цена</li>
-          <li className="category_name">Категория</li>
-          <li className="delete_list"></li>
-        </ul>
-      </div>
-      <div className="tbody">
-        {productsAll?.map((item, i) => (
-          <ul key={i}>
-            <li className="title">{item.title}</li>
-            <li className="description">{item.description}</li>
-            <li className="image">
-              <img src={item.image} alt="" />
-            </li>
-            <li className="price">
-              {item.price?.map((prices, i) => (
-                <span key={i}>{prices.price},</span>
-              ))}
-            </li>
-            <li className="category_name">{item.category.category_name}</li>
-            <li className="delete_list">
-              <button
-                className="delete_btn"
-                onClick={() => {
-                  removeProduct(item.id);
-                  refreshPage();
-                }}
-              >
-                Удалить
-              </button>
-            </li>
-          </ul>
-        ))}
-      </div>
-    </form>
+    <>
+      {spinner ? (
+        <Loader />
+      ) : (
+        <form className="table">
+          <div className="thead">
+            <ul>
+              <li className="title">Заголовок</li>
+              <li className="description">Описание</li>
+              <li className="image">Картинка</li>
+              <li className="price">Цена</li>
+              <li className="category_name">Категория</li>
+              <li className="delete_list"></li>
+            </ul>
+          </div>
+          <div className="tbody">
+            {productsAll?.map((item, i) => (
+              <ul key={i}>
+                <li className="title">{item.title}</li>
+                <li className="description">{item.description}</li>
+                <li className="image">
+                  <img src={item.image} alt="" />
+                </li>
+                <li className="price">
+                  {item.price?.map((prices, i) => (
+                    <span key={i}>{prices.price},</span>
+                  ))}
+                </li>
+                <li className="category_name">{item.category.category_name}</li>
+                <li className="delete_list">
+                  <button
+                    className="update_product"
+                    type="button"
+                    onClick={() => {
+                      dispatch(setIsProductsId(item.id))
+                      dispatch(setIsTitle(item.title))
+                      dispatch(setIsDescribtion(item.description))
+                      dispatch(setIsImage(item.image))
+                      setOpen(true);
+                    }}
+                  >
+                    Изменить
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      removeProduct(item.id);
+                      refreshPage();
+                    }}
+                  >
+                    Удалить
+                  </button>
+                </li>
+              </ul>
+            ))}
+            <UpdateModal open={open} setOpen={setOpen} setClose={setOpen} />
+          </div>
+        </form>
+      )}
+    </>
   );
 }
 
@@ -156,18 +203,22 @@ export function AllTableProducts() {
 
 export function UsersTableAll() {
   const [usersAll, setUsersAll] = useState();
+  const [spinner, setSpinner] = useState(false);
 
   useEffect(() => {
     getUsers();
   }, []);
 
   const getUsers = () => {
+    setSpinner(true);
     axios
       .get("https://demo-store19.herokuapp.com/api/demo-store/private-users")
       .then((res) => {
+        setSpinner(false);
         setUsersAll(res.data);
       })
       .catch((err) => {
+        setSpinner(false);
         console.log(err);
       });
   };
@@ -194,62 +245,38 @@ export function UsersTableAll() {
 
   return (
     <>
-      {/* <form className="table">
-        <div className="thead">
-          <ul>
-            <li className="name">Имя</li>
-            <li className="role">Роль</li>
-            <li className="delete_list_user"></li>
-          </ul>
-        </div>
-        <div className="tbody">
-          {usersAll?.map((item, i) => (
-            <ul key={i}>
-              <li className="name">{item.username}</li>
-              <li className="role">{item.role}</li>
-              <li className="delete_list_user">
-                <button
-                  className="delete_btn"
-                  onClick={() => {
-                    removeUser(item.user_id);
-                    refreshPage();
-                  }}
-                >
-                  Удалить
-                </button>
-              </li>
-            </ul>
-          ))}
-        </div>
-      </form> */}
-      <table className="table">
-        <thead>
-          <tr>
-            <th className="table_name">Имя</th>
-            <th className="table_products">Роль</th>
-            <th></th>
-          </tr>
-        </thead>
-        {usersAll?.map((item, i) => (
-          <tbody key={i}>
+      {spinner ? (
+        <Loader />
+      ) : (
+        <table className="table">
+          <thead>
             <tr>
-              <td className="table_name">{item.username}</td>
-              <td className="table_products">{item.role}</td>
-              <td>
-                <button
-                  className="delete"
-                  onClick={() => {
-                    removeUser(item.category_name);
-                    refreshPage();
-                  }}
-                >
-                  Удалить
-                </button>
-              </td>
+              <th className="table_name">Имя</th>
+              <th className="table_products">Роль</th>
+              <th></th>
             </tr>
-          </tbody>
-        ))}
-      </table>
+          </thead>
+          {usersAll?.map((item, i) => (
+            <tbody key={i}>
+              <tr>
+                <td className="table_name">{item.username}</td>
+                <td className="table_products">{item.role}</td>
+                <td>
+                  <button
+                    className="delete"
+                    onClick={() => {
+                      removeUser(item.category_name);
+                      refreshPage();
+                    }}
+                  >
+                    Удалить
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          ))}
+        </table>
+      )}
     </>
   );
 }
