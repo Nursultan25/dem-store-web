@@ -16,14 +16,14 @@ function Authorization() {
     let userId = user;
     let passwordId = password;
     if (userId === "admin" && passwordId === "admin") {
-      localStorage.setItem("token", "T");
+      sessionStorage.setItem("token", "T");
       dispatch(setIsLogged(true));
     }
   };
 
   const isLogged = useSelector((state) => state.reducer.isLogged);
 
-  if (localStorage.getItem("token") ) {
+  if (sessionStorage.getItem("token") ) {
     return <Navigate to="/category" />;
   }
 

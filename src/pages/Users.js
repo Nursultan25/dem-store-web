@@ -10,17 +10,21 @@ function Users() {
     <section>
       <div className="wrapper">
         <nav>
-          <Link to="/category" className="tabs_btn">Категории</Link>
+          <Link to="/category" className="tabs_btn">
+            Категории
+          </Link>
           <Link to="/products" className="tabs_btn">
             Товары
           </Link>
-          <Link className="active_tab">
-            Пользователи
+          <Link className="active_tab">Пользователи</Link>
+          <Link to="/prices" className="tabs_btn">
+            Цены
           </Link>
         </nav>
         <div className="users_block">
           <div className="products_block_head">
             <button
+              type="button"
               onClick={() => {
                 setModalActive(true);
               }}
@@ -28,7 +32,7 @@ function Users() {
               Создать
             </button>
           </div>
-          <UsersTableAll  />
+          <UsersTableAll />
         </div>
         <UsersModal
           active={modalActive}

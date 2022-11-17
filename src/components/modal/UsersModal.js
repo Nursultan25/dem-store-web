@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import "./Modal.css";
 import axios from "axios";
+import { UsersDropDown } from "../dropdown/DropDown";
 
 const UsersModal = ({ active, setActive, closeModal }) => {
   const [login, setLogin] = useState();
   const [password, setPassword] = useState();
-  const [role, setRole] = useState("ADMIN");
+  const [selected, setSelected] = useState("");
 
   const usersParam = {
-    id: "Идентификатор",
     login: login,
     password: password,
-    role: role,
+    role: selected,
   };
 
   const createUser = () => {
@@ -50,17 +50,9 @@ const UsersModal = ({ active, setActive, closeModal }) => {
               setLogin(e.target.value);
             }}
           />
-          <label htmlFor="">
-            <input
-              type="text"
-              value={role}
-              placeholder="Роль"
-              onChange={(e) => {
-                setRole(e.target.value);
-              }}
-            />
-            <p>CLIENT, ADMIN, PROVIDER</p>
-          </label>
+        </div>
+        <div className="users_roles">
+          <UsersDropDown selected={selected} setSelected={setSelected} />
         </div>
         <div className="modal_password">
           <input

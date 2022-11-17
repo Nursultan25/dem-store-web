@@ -10,6 +10,7 @@ import "./Pages.css";
 
 function Products() {
   const [activeModal, setActiveModal] = useState(false);
+  const [clicked, setClicked] = useState(false);
   const [selected, setSelected] = useState("");
 
   return (
@@ -23,6 +24,9 @@ function Products() {
           <Link to="/users" className="tabs_btn">
             Пользователи
           </Link>
+          <Link to="/prices" className="tabs_btn">
+            Цены
+          </Link>
         </nav>
         <div className="products_block">
           <div className="products_block_head">
@@ -33,9 +37,9 @@ function Products() {
             >
               Создать
             </button>
-            <DropDown selected={selected} setSelected={setSelected} />
+            <DropDown selected={selected} setSelected={setSelected} setClicked={setClicked} />
           </div>
-          {selected ? <TableProducts /> : <AllTableProducts />}
+          {clicked ? <TableProducts /> : <AllTableProducts />}
         </div>
         <ProductsModal
           active={activeModal}

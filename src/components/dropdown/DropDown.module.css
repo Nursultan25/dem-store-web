@@ -5,6 +5,13 @@
   width: 600px;
 }
 
+.dropdown_role {
+	position: relative;
+	display: flex;
+	gap: 16px;
+  width: 100%;
+}
+
 .sending_dropdown {
 	position: relative;
 	width: 426px;

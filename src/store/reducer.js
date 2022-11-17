@@ -5,6 +5,7 @@ const TITLE = "TITLE";
 const DESCRIPTION = "DESCRIPTION";
 const IMAGE = "IMAGE";
 const PRICE = "PRICE";
+const ISCATEGORY = "ISCATEGORY";
 
 const defaultState = {
   categoryId: [],
@@ -13,7 +14,8 @@ const defaultState = {
   istitle: '',
   isdescribtion: '',
   isimage: '',
-  isprice: ''
+  isprice: '',
+  iscategory: '',
 };
 
 const reducer = (state = defaultState, action) => {
@@ -32,6 +34,8 @@ const reducer = (state = defaultState, action) => {
       return { ...state, isimage: action.payload };
     case PRICE:
       return { ...state, isprice: action.payload };
+    case ISCATEGORY:
+      return { ...state, iscategory: action.payload };
     default:
       return state;
   }
@@ -44,5 +48,6 @@ export const setIsTitle = (payload) => ({ type: TITLE, payload });
 export const setIsDescribtion = (payload) => ({ type: DESCRIPTION, payload });
 export const setIsImage = (payload) => ({ type: IMAGE, payload });
 export const setIsPrice = (payload) => ({ type: PRICE, payload });
+export const setIsCategory = (payload) => ({ type: ISCATEGORY, payload });
 
 export default reducer;

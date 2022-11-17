@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { DropDownModal } from "../dropdown/DropDown";
+import { DropDownModal, UpdateDrop } from "../dropdown/DropDown";
 import "./Modal.css";
 
 const UpdateModal = ({ open, setOpen, setClose }) => {
@@ -9,14 +9,11 @@ const UpdateModal = ({ open, setOpen, setClose }) => {
   const [description, setDescription] = useState();
   const [imageUrl, setImageUrl] = useState();
   const [categoryName, setCategoryName] = useState();
-  const [price, setPrice] = useState([]);
 
   const productsId = useSelector((state) => state.reducer.productsId);
   const istitle = useSelector((state) => state.reducer.istitle);
   const isdescription = useSelector((state) => state.reducer.isdescribtion);
   const isimage = useSelector((state) => state.reducer.isimage);
-
-  console.log(productsId);
 
   const params = {
     id: productsId,
@@ -88,16 +85,9 @@ const UpdateModal = ({ open, setOpen, setClose }) => {
           />
         </div>
         <div className="modal_footer">
-          <DropDownModal
+          <UpdateDrop
             categoryName={categoryName}
             setCategoryName={setCategoryName}
-          />
-          <input
-            type="text"
-            placeholder="Цена"
-            onChange={(e) => {
-              setPrice(e.target.value);
-            }}
           />
         </div>
         <button
@@ -105,7 +95,7 @@ const UpdateModal = ({ open, setOpen, setClose }) => {
           onClick={() => {
             updateProduct();
             setClose(false);
-            // refreshPage();
+            refreshPage();
           }}
         >
           Добавить

@@ -8,8 +8,11 @@ import Loader from "./../components/loader/Loader";
 function Category() {
   const [categoryData, setCategoryData] = useState();
   const [values, setValues] = useState();
+  const [categoryValue, setCategoryValue] = useState();
   const [spinner, setSpinner] = useState(false);
   const [logout, setLogout] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [isCategoryId, setIsCategoryId] = useState("");
 
   const getCategory = () => {
     setSpinner(true);
@@ -29,6 +32,11 @@ function Category() {
     name: values,
   };
 
+  const updates = {
+    id: isCategoryId,
+    newName: values,
+  };
+
   const createCategory = () => {
     axios
       .post(
@@ -43,10 +51,24 @@ function Category() {
       });
   };
 
+  const updateCategory = () => {
+    axios
+      .put(
+        `https://demo-store19.herokuapp.com/api/demo-store/categories`,
+        updates
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const removeCategory = (id) => {
     axios
       .delete(
-        `https://demo-store19.herokuapp.com/api/demo-store/categories?categoryName=${id}`
+        `https://demo-store19.herokuapp.com/api/demo-store/categories?categoryId=${id}`
       )
       .then((res) => {
         console.log(res);
@@ -87,26 +109,57 @@ function Category() {
           <Link to="/users" className="tabs_btn">
             Пользователи
           </Link>
+          <Link to="/prices" className="tabs_btn">
+            Цены
+          </Link>
         </nav>
         <div className="main_page_block">
           <div className="search_content">
-            <div className="create">
-              <input
-                type="text"
-                placeholder="Введите название"
-                onChange={(e) => {
-                  setValues(e.target.value);
-                }}
-              />
-              <button
-                onClick={() => {
-                  createCategory();
-                  refreshPage();
-                }}
-              >
-                Создать
-              </button>
-            </div>
+            {update ? (
+              <div className="create">
+                <input
+                  type="text"
+                  defaultValue={categoryValue}
+                  onChange={(e) => {
+                    setValues(e.target.value);
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    updateCategory();
+                    refreshPage();
+                  }}
+                >
+                  Изменить
+                </button>
+                <button
+                  onClick={() => {
+                    setUpdate(false);
+                  }}
+                >
+                  Отмена
+                </button>
+              </div>
+            ) : (
+              <div className="create">
+                <input
+                  type="text"
+                  defaultValue={values}
+                  placeholder="Введите название"
+                  onChange={(e) => {
+                    setValues(e.target.value);
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    createCategory();
+                    refreshPage();
+                  }}
+                >
+                  Создать
+                </button>
+              </div>
+            )}
             <button
               onClick={() => {
                 logOut();
@@ -132,13 +185,20 @@ function Category() {
                     <td className="table_name">{categories.category_name}</td>
                     <td className="table_products">{categories.in_stock}</td>
                     <td>
-                      <button className="update">
+                      <button
+                        className="update_ntb"
+                        onClick={() => {
+                          setIsCategoryId(categories.id);
+                          setCategoryValue(categories.category_name);
+                          setUpdate(true);
+                        }}
+                      >
                         Изменить
                       </button>
                       <button
                         className="delete"
                         onClick={() => {
-                          removeCategory(categories.category_name);
+                          removeCategory(categories.id);
                           refreshPage();
                         }}
                       >

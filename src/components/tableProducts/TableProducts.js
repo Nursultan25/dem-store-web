@@ -2,7 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../pages/Pages.css";
-import { setIsDescribtion, setIsImage, setIsProductsId, setIsTitle } from "../../store/reducer";
+import {
+  setIsCategory,
+  setIsDescribtion,
+  setIsImage,
+  setIsProductsId,
+  setIsTitle,
+} from "../../store/reducer";
 import Loader from "../loader/Loader";
 import UpdateModal from "../modal/UpdateModal";
 
@@ -13,7 +19,7 @@ export function TableProducts() {
   const [productId, setProductId] = useState();
   const categoryId = useSelector((state) => state.reducer.categoryId);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const removeProduct = (id) => {
     axios
@@ -51,7 +57,7 @@ export function TableProducts() {
         <div className="tbody">
           {categoryId?.map((item, i) => (
             <ul key={i}>
-              <li className="title">{item.title}</li>
+              <li className="title">{item.id}</li>
               <li className="description">{item.description}</li>
               <li className="image">
                 <img src={item.image} alt="" />
@@ -63,11 +69,17 @@ export function TableProducts() {
               </li>
               <li className="category_name">{item.category.category_name}</li>
               <li className="delete_list">
+                {console.log(item.id)}
+
                 <button
                   className="update_product"
                   type="button"
                   onClick={() => {
-                    dispatch(setIsProductsId(item.id))
+                    dispatch(setIsProductsId(item.id));
+                    dispatch(setIsTitle(item.title));
+                    dispatch(setIsDescribtion(item.description));
+                    dispatch(setIsImage(item.image));
+                    dispatch(setIsCategory(item.category.category_name));
                     setOpen(true);
                   }}
                 >
@@ -113,10 +125,10 @@ export function AllTableProducts() {
       });
   }, []);
 
-  const removeProduct = (id) => {
+  const removeProduct = (delId) => {
     axios
       .delete(
-        `https://demo-store19.herokuapp.com/api/demo-store/products?id=${id}`
+        `https://demo-store19.herokuapp.com/api/demo-store/products?id=${delId}`
       )
       .then((res) => {
         console.log(res);
@@ -126,7 +138,7 @@ export function AllTableProducts() {
       });
   };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   function refreshPage() {
     setTimeout(() => {
@@ -146,7 +158,6 @@ export function AllTableProducts() {
               <li className="title">Заголовок</li>
               <li className="description">Описание</li>
               <li className="image">Картинка</li>
-              <li className="price">Цена</li>
               <li className="category_name">Категория</li>
               <li className="delete_list"></li>
             </ul>
@@ -159,21 +170,17 @@ export function AllTableProducts() {
                 <li className="image">
                   <img src={item.image} alt="" />
                 </li>
-                <li className="price">
-                  {item.price?.map((prices, i) => (
-                    <span key={i}>{prices.price},</span>
-                  ))}
-                </li>
                 <li className="category_name">{item.category.category_name}</li>
                 <li className="delete_list">
                   <button
-                    className="update_product"
+                    className="update_ntb"
                     type="button"
                     onClick={() => {
-                      dispatch(setIsProductsId(item.id))
-                      dispatch(setIsTitle(item.title))
-                      dispatch(setIsDescribtion(item.description))
-                      dispatch(setIsImage(item.image))
+                      dispatch(setIsProductsId(item.id));
+                      dispatch(setIsTitle(item.title));
+                      dispatch(setIsDescribtion(item.description));
+                      dispatch(setIsImage(item.image));
+                      dispatch(setIsCategory(item.category.category_name));
                       setOpen(true);
                     }}
                   >
@@ -265,7 +272,7 @@ export function UsersTableAll() {
                   <button
                     className="delete"
                     onClick={() => {
-                      removeUser(item.category_name);
+                      removeUser(item.user_id);
                       refreshPage();
                     }}
                   >

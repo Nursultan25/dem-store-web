@@ -5,6 +5,7 @@ import Category from "./pages/Category";
 import Products from "./pages/Products";
 import Users from "./pages/Users";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import Prices from "./pages/Prices";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/category" element={<Category />} exact={true} />
           <Route path="/products" element={<Products />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/prices" element={<Prices />} />
         </Route>
         <Route path="/login" element={<Authorisation />} />
       </Routes>
