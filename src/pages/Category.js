@@ -151,6 +151,7 @@ function Category() {
                   }}
                 />
                 <button
+                  disabled={!values}
                   onClick={() => {
                     createCategory();
                     refreshPage();

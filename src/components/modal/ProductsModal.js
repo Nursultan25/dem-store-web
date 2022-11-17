@@ -8,17 +8,11 @@ const ProductsModal = ({ active, setActive, closeModal }) => {
   const [description, setDescription] = useState();
   const [imageUrl, setImageUrl] = useState();
   const [categoryName, setCategoryName] = useState();
-  const [price, setPrice] = useState([]);
 
   const params = {
     title: title,
     description: description,
     image: imageUrl,
-    price: [
-      {
-        price: price,
-      },
-    ],
     category: categoryName,
   };
 
@@ -81,19 +75,16 @@ const ProductsModal = ({ active, setActive, closeModal }) => {
           />
         </div>
         <div className="modal_footer">
-          <DropDownModal categoryName={categoryName} setCategoryName={setCategoryName} />
-          <input
-            type="text"
-            placeholder="Цена"
-            onChange={(e) => {
-              setPrice(e.target.value);
-            }}
+          <DropDownModal
+            categoryName={categoryName}
+            setCategoryName={setCategoryName}
           />
         </div>
         <button
+          disabled={!title || !description || !imageUrl || !categoryName}
           onClick={() => {
             createProducts();
-            closeModal(false)
+            closeModal(false);
             refreshPage();
           }}
         >

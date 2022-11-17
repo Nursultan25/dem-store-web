@@ -56,7 +56,8 @@ const UsersModal = ({ active, setActive, closeModal }) => {
         </div>
         <div className="modal_password">
           <input
-            type="text"
+            type="password"
+            minlength="8"
             placeholder="Пароль"
             onChange={(e) => {
               setPassword(e.target.value);
@@ -64,6 +65,7 @@ const UsersModal = ({ active, setActive, closeModal }) => {
           />
         </div>
         <button
+          disabled={!login || !selected || !password}
           onClick={() => {
             createUser();
             closeModal(false);
